@@ -1,0 +1,15 @@
+{% extends 'generatorius/base.html' %}
+
+{% block content %}
+<h2>Pasirinkite tekstą</h2>
+<form method="post">
+    {% csrf_token %}
+    {% for tekstas in tekstai %}
+    <div>
+        <input type="radio" name="pasirinktas_tekstas" id="tekstas_{{ forloop.counter }}" value="{{ tekstas }}">
+        <label for="tekstas_{{ forloop.counter }}">{{ tekstas }}</label>
+    </div>
+    {% endfor %}
+    <button type="submit">Pasirinkti ir redaguoti</button>
+</form>
+{% endblock %}

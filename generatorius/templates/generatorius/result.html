@@ -1,0 +1,86 @@
+{% extends 'generatorius/base.html' %}
+
+{% block content %}
+<h2>Jūsų sveikinimas paruoštas!</h2>
+
+{% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+{% else %}
+    {% if tekstas %}
+    <section class="result-section">
+        <h3>Tekstas:</h3>
+        <blockquote>{{ tekstas }}</blockquote>
+    </section>
+    {% endif %}
+
+    {% if garso_failas %}
+    <section class="result-section">
+        <h3>Garsas:</h3>
+        <audio id="audioPlayer" controls>
+            <source src="{{ garso_failas }}" type="audio/mpeg">
+            Jūsų naršyklė nepalaiko garso elemento.
+        </audio>
+        <p>Laikas: <span id="audioTime">0:00</span> / <span id="audioDuration">0:00</span></p>
+    </section>
+    {% endif %}
+
+    {% if paveikslas %}
+    <section class="result-section">
+        <h3>Paveikslėlis:</h3>
+        <img src="{{ paveikslas }}" alt="Sugeneruotas paveikslėlis" class="result-image">
+    </section>
+    {% endif %}
+
+    {% if not galutinis_failas %}
+    <section class="result-section">
+        <h3>Fono muzikos pasirinkimas:</h3>
+        <form method="post">
+            {% csrf_token %}
+            <select name="fono_muzika" class="form-select">
+                <option value="background1.mp3">Fono muzika 1</option>
+                <option value="background2.mp3">Fono muzika 2</option>
+                <option value="background3.mp3">Fono muzika 3</option>
+            </select>
+            <button type="submit" class="button">Sujungti failus</button>
+        </form>
+    </section>
+    {% endif %}
+
+    {% if galutinis_failas %}
+    <section class="result-section">
+        <h3>Galutinis rezultatas:</h3>
+        <video controls>
+            <source src="{{ galutinis_failas }}" type="video/mp4">
+            Jūsų naršyklė nepalaiko video elemento.
+        </video>
+        <a href="{{ galutinis_failas }}" download class="button">Atsisiųsti galutinį failą</a>
+    </section>
+    {% endif %}
+{% endif %}
+
+<a href="{% url 'home' %}" class="button">Grįžti į pradžią</a>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const audioPlayer = document.getElementById('audioPlayer');
+    const audioTime = document.getElementById('audioTime');
+    const audioDuration = document.getElementById('audioDuration');
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    }
+
+    audioPlayer.addEventListener('loadedmetadata', () => {
+        audioDuration.textContent = formatTime(audioPlayer.duration);
+    });
+
+    audioPlayer.addEventListener('timeupdate', () => {
+        audioTime.textContent = formatTime(audioPlayer.currentTime);
+    });
+</script>
+{% endblock %}

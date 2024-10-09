@@ -1,0 +1,18 @@
+{% extends 'generatorius/base.html' %}
+
+{% block content %}
+<h2>Generuoti garsą</h2>
+
+{% if error %}
+<div class="error">
+    {{ error }}
+</div>
+{% endif %}
+
+<p>Tekstas: {{ tekstas }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Generuoti garsą</button>
+</form>
+{% endblock %}

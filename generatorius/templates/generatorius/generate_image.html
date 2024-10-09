@@ -1,0 +1,11 @@
+{% extends 'generatorius/base.html' %}
+
+{% block content %}
+<h2>Generuoti paveikslėlį</h2>
+<p>Sugeneruotas tekstas:</p>
+<blockquote>{{ tekstas }}</blockquote>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Generuoti paveikslėlį</button>
+</form>
+{% endblock %}

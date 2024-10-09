@@ -1,0 +1,7 @@
+{% extends 'generatorius/base.html' %}
+
+{% block content %}
+<h2>Sveiki atvykę į Interaktyvų sveikinimų generatorių!</h2>
+<p>Čia galite sukurti unikalų sveikinimą su tekstu, garsu ir paveikslėliu.</p>
+<a href="{% url 'generate_text' %}" class="button">Pradėti kurti sveikinimą</a>
+{% endblock %}
